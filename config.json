@@ -1,0 +1,7 @@
+{
+  "host_url": "http://www.example.com", 
+  "redirect": "False", 
+  "html_skeleton": "True", 
+  "html_title": "CSR2F : Cross Site Request Forgery Framework", 
+  "redirect_url": "http://www.example.com"
+}
