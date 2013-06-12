@@ -231,6 +231,14 @@ class ShowCommand():
             author = 'Unknown' if not self.exploit['author'] else self.exploit['author']
             author_url = '' if not self.exploit['author_url'] else '('+self.exploit['author_url']+')'
             params = [p for p in self.exploit['params'] if p['custom'] == True]
+            description = ""
+            for line in self.exploit['description'].split('\n'):
+                if line == '':
+                    description += "\n"
+                else:
+                    words = line.split()
+                    for i in range(0, len(words), 12):
+                        description += "\t" + " ".join(words[i:i + 12]) + "\n"
 
             print('''
 Informations
@@ -241,14 +249,13 @@ Informations
 
 \tDescription
 \t-----------
-\t{}
-
+{}
 \tAuthor : {} {}
 \t------
 
 \tMethod & Path : ({}) {}
 \t-------------
-'''.format(self.exploit['name'], self.exploit['description'], author, author_url, self.exploit['method'], self.exploit['path']))
+'''.format(self.exploit['name'], description, author, author_url, self.exploit['method'], self.exploit['path']))
 
             # print configuration paramters
             if params:
