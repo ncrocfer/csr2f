@@ -19,6 +19,7 @@
 # Developed by Nicolas Crocfer (http://www.shatter.fr)
 
 import os
+from collections import OrderedDict
 
 from core.exceptions import CmdNotExistsException
 from core.exploits import ExploitsManager
@@ -114,6 +115,8 @@ class SearchCommand():
 
     def __init__(self):
         self.exploits_list = ExploitsManager().exploits
+        self.exploits_list = OrderedDict(sorted(self.exploits_list.items()))
+        
 
     def run(self, params):
         print('''
