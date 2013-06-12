@@ -20,4 +20,7 @@
 
 
 class CmdNotExistsException(Exception):
-        pass
+    pass
+
+class ParamsNotExistsException(Exception):
+	pass

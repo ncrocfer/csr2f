@@ -22,6 +22,7 @@ import os
 from collections import OrderedDict
 
 from core.exceptions import CmdNotExistsException
+from core.exceptions import ParamsNotExistsException
 from core.exploits import ExploitsManager
 from core.generator import Generator
 
@@ -125,10 +126,14 @@ class SearchCommand():
 ''')
 
         for exploit_id, exploit in self.exploits_list.items():
-            if params and \
-                (params[0].lower() not in exploit['name'].lower()) and \
-                (params[0].lower() not in exploit['description'].lower()):
-                continue
+            if params :
+                try:
+                    for param in params:
+                        if (param.lower() not in exploit['name'].lower()) and (param.lower() not in exploit['description'].lower()):
+                            raise ParamsNotExistsException
+                except ParamsNotExistsException:
+                    continue
+                        
 
             description = str(exploit['description'])[:70] + "..." if len(exploit['description']) > 70 else exploit['description']
             name = str(exploit['name'])[:25].rstrip() + "..." if len(exploit['name']) > 25 else exploit['name']
