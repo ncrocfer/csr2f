@@ -116,13 +116,13 @@ class SearchCommand():
 
     def __init__(self):
         self.exploits_list = ExploitsManager().exploits
-        self.exploits_list = OrderedDict(sorted(self.exploits_list.items()))
+        self.exploits_list = OrderedDict(sorted(self.exploits_list.items(), key= lambda x: x[1]['date'], reverse=True))
         
 
     def run(self, params):
         print('''
-\tID      Method     Name                         Description
-\t==      ======     ====                         ===========
+\tDate           ID     Name                            Description
+\t====           ==     ====                            ===========
 ''')
 
         for exploit_id, exploit in self.exploits_list.items():
@@ -136,9 +136,10 @@ class SearchCommand():
                         
 
             description = str(exploit['description'])[:70] + "..." if len(exploit['description']) > 70 else exploit['description']
+            description = description.replace('\n', ' ')
             name = str(exploit['name'])[:25].rstrip() + "..." if len(exploit['name']) > 25 else exploit['name']
 
-            print("\t{:<8}{:<11}{:<29}{}".format(exploit_id, exploit['method'], name, description))
+            print("\t{:<15}{:<7}{:<32}{:<30}".format(exploit['date'],exploit_id, name, description))
 
         print("\t")
 
@@ -249,7 +250,7 @@ class ShowCommand():
 Informations
 ============
 
-\tName : {}
+\tName : {} ({})
 \t----
 
 \tDescription
@@ -260,7 +261,7 @@ Informations
 
 \tMethod & Path : ({}) {}
 \t-------------
-'''.format(self.exploit['name'], description, author, author_url, self.exploit['method'], self.exploit['path']))
+'''.format(self.exploit['name'], self.exploit['date'], description, author, author_url, self.exploit['method'], self.exploit['path']))
 
             # print configuration paramters
             if params:
