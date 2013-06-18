@@ -58,7 +58,7 @@ class Generator:
                 else:
                     self.form_id = v
 
-            # input fields
+            # Fields
             form_inputs = ""
             for p in self.exploit['params']:
                 input_params = ""
@@ -82,11 +82,21 @@ class Generator:
                     except KeyError:
                         input_value = ""
 
-                redirect = ' window.location="{}";'.format(self.conf['redirect_url']) if self.conf['redirect'].lower() == 'true' else ""
+                # Input fields
+                if input_type in ['text', 'hidden', 'submit', 'checkbox', 'password']:
+                    form_inputs += '<input type="{}" {}{}{}/>'.format(input_type, input_name, input_value, input_params)
+                # Textarea fields
+                elif input_type == "textarea":
+                    try:
+                        value = '{}'.format(p['user_value'])
+                    except KeyError:
+                        try:
+                            value = '{}'.format(p['value'])
+                        except KeyError:
+                            value = ""
+                    form_inputs += '<textarea {}{}>{}</textarea>'.format(input_name, input_params, value)
 
-
-                form_inputs += '<input type="{}" {}{}{}/>'.format(input_type, input_name, input_value, input_params)
-
+            redirect = ' window.location="{}";'.format(self.conf['redirect_url']) if self.conf['redirect'].lower() == 'true' else ""
             return '<form action="{}" method="post" id="{}"{}>\n{}</form>\n<script type="text/javascript">\ndocument.getElementById("{}").submit();{}</script>'.format(form_action, self.form_id, form_params, form_inputs, self.form_id, redirect)
 
         else:

@@ -201,7 +201,7 @@ class SetCommand():
 
         try:
             name = params[1]
-            value = params[2]
+            value = " ".join(params[2:])
         except IndexError:
             om.error('You must specify a parameter name and a value')
             return 0
