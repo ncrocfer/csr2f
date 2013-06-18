@@ -87,7 +87,7 @@ class Generator:
 
                 form_inputs += '<input type="{}" {}{}{}/>'.format(input_type, input_name, input_value, input_params)
 
-            return '<form action="{}" id="{}"{}>\n{}</form>\n<script type="text/javascript">\ndocument.getElementById("{}").submit();{}</script>'.format(form_action, self.form_id, form_params, form_inputs, self.form_id, redirect)
+            return '<form action="{}" method="post" id="{}"{}>\n{}</form>\n<script type="text/javascript">\ndocument.getElementById("{}").submit();{}</script>'.format(form_action, self.form_id, form_params, form_inputs, self.form_id, redirect)
 
         else:
             return None
