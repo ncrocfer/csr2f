@@ -97,7 +97,9 @@ class Generator:
                     form_inputs += '<textarea {}{}>{}</textarea>'.format(input_name, input_params, value)
 
             redirect = ' window.location="{}";'.format(self.conf['redirect_url']) if self.conf['redirect'].lower() == 'true' else ""
-            return '<form action="{}" method="post" id="{}"{}>\n{}</form>\n<script type="text/javascript">\ndocument.getElementById("{}").submit();{}</script>'.format(form_action, self.form_id, form_params, form_inputs, self.form_id, redirect)
+            html = '<form action="{}" method="post" id="{}"{}>\n{}</form>\n<script type="text/javascript">\ndocument.getElementById("{}").submit();{}</script>'.format(form_action, self.form_id, form_params, form_inputs, self.form_id, redirect)
+            soup = BeautifulSoup(html)
+            return soup.prettify(formatter=None)
 
         else:
             return None
