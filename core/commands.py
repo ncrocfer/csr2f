@@ -166,21 +166,25 @@ class GenerateCommand():
             om.error('You must specify an exploit id')
             return 0
 
-        conf = config.config
-        exploit = em.find(int(id_exploit))
-        code = Generator(conf, exploit)
-
-        try:
-            filename = params[1]
-        except IndexError:
-            print("\n{}\n".format(code.get_page()))
-            return 0
+        if em.find(int(id_exploit)) is None:
+            om.error('This exploit does not exist')
         else:
-            if code.save_file(filename):
-                om.info("The file was created in 'output' folder")
-            else:
-                om.error("A problem occured. Is that the file is writable ?")
+
+            conf = config.config
+            exploit = em.find(int(id_exploit))
+            code = Generator(conf, exploit)
+
+            try:
+                filename = params[1]
+            except IndexError:
                 print("\n{}\n".format(code.get_page()))
+                return 0
+            else:
+                if code.save_file(filename):
+                    om.info("The file was created in 'output' folder")
+                else:
+                    om.error("A problem occured. Is that the file is writable ?")
+                    print("\n{}\n".format(code.get_page()))
 
 
 class SetCommand():
