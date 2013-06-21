@@ -24,3 +24,6 @@ class CmdNotExistsException(Exception):
 
 class ParamsNotExistsException(Exception):
 	pass
+
+class UpdateException(Exception):
+	pass

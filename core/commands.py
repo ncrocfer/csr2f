@@ -23,6 +23,7 @@ from collections import OrderedDict
 
 from core.exceptions import CmdNotExistsException
 from core.exceptions import ParamsNotExistsException
+from core.exceptions import UpdateException
 from core.exploits import ExploitsManager
 from core.generator import Generator
 
@@ -147,7 +148,26 @@ class SearchCommand():
 class UpdateCommand():
 
     def run(self, params):
-        om.info("Coming soon... (after feedback from beta testers).")
+        local_last_exploit = em.get_local_last_exploit()
+        remote_last_exploit = em.get_remote_last_exploit()
+        if remote_last_exploit == -1:
+            om.error("You must install requests module to get the new exploits\n\n\t$ pip install requests\n")
+            return None
+        elif remote_last_exploit == -2:
+            om.error("Error : A Connection error occurred")
+            return None
+
+        if int(local_last_exploit) == int(remote_last_exploit):
+            om.info("The list of exploits is already updated")
+            em.set_last_update()
+        else:
+            try:
+                nb_exploits = em.update_exploits_list()
+                exploits_str = "exploits" if nb_exploits > 1 else "exploit"
+                om.info("{} new {} added".format(nb_exploits, exploits_str))
+                om.info("Last update : {}".format(em.get_last_update()))
+            except UpdateException:
+                om.error("Error during exploits update")
 
 
 class ExitCommand():

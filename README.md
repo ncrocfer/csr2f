@@ -195,7 +195,7 @@ This command is used to generate the HTML exploit. You can display it on the scr
 **Other commands**
 
 * `clear` : Clear the user screen
-* `update` : Update the exploits list (this feature is not yet present in the beta version)
+* `update` : Update the exploits list
 * `exit` : Exit the console
 
 

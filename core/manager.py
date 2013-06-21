@@ -36,7 +36,8 @@ class Manager:
 
     def run(self):
         signal.signal(signal.SIGINT, self.sigint_handler)
-        om.info("{} exploits loaded\n".format(em.get_number()))
+        om.info("{} exploits loaded".format(em.get_number()))
+        om.info("Last update : {}\n".format(em.get_last_update()))
 
         while True:
             line = input("csr2f> ")
