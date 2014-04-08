@@ -39,7 +39,7 @@ class HelpCommand():
 \tconfig  \tDisplay the configuration options
 \tclear   \tClear the current screen
 \tsearch  \tSearch an exploit based on keyword
-\tshow    \tDisplay informations about an exploit based on its ID
+\tshow    \tDisplay informations about an exploit
 \tset     \tSet special fields for an exploit
 \tgenerate\tGenerate the exploit to the console or in a file
 \tupdate  \tUpdate the exploits list
@@ -66,7 +66,7 @@ class HelpCommand():
             print('''\n\tThis command is used to show the informations about an exploit
 \t(author, description, configuration...).
 
-\tUsage:\tshow <id>
+\tUsage:\tshow <exploit_name>
 \tEx:\tshow 112
 ''')
         elif params[0] == 'set':
@@ -74,15 +74,15 @@ class HelpCommand():
 \ta username, a password, an email adress...). This command is used to
 \tchange these values.
 
-\tUsage:\tset <id> <configuration> <value>
+\tUsage:\tset <exploit_name> <configuration> <value>
 \tEx:\tset 112 username nico
 ''')
         elif params[0] == 'generate':
             print('''\n\tThis command is used to generate the HTML exploit. You can display it
-\ton the screen by typing 'generate <id>' without other argument. You
+\ton the screen by typing 'generate <exploit_name>' without other argument. You
 \tcan also pass a filename to create a new file.
 
-\tUsage:\tgenerate <id> <filename>
+\tUsage:\tgenerate <exploit_name> <filename>
 \tEx:\tgenerate 112 index.html
 ''')
         elif params[0] == 'update':
@@ -122,11 +122,11 @@ class SearchCommand():
 
     def run(self, params):
         print('''
-\tDate           ID     Name                            Description
-\t====           ==     ====                            ===========
+\tDate           Name                                              Description
+\t====           ====                                              ===========
 ''')
 
-        for exploit_id, exploit in self.exploits_list.items():
+        for exploit_name, exploit in self.exploits_list.items():
             if params :
                 try:
                     for param in params:
@@ -134,13 +134,11 @@ class SearchCommand():
                             raise ParamsNotExistsException
                 except ParamsNotExistsException:
                     continue
-                        
 
-            description = str(exploit['description'])[:70] + "..." if len(exploit['description']) > 70 else exploit['description']
-            description = description.replace('\n', ' ')
-            name = str(exploit['name'])[:25].rstrip() + "..." if len(exploit['name']) > 25 else exploit['name']
+            exploit_name = exploit_name[:45].rstrip() + "..." if len(exploit_name) > 45 else exploit_name
+            name = str(exploit['name'])[:50].rstrip() + "..." if len(exploit['name']) > 50 else exploit['name']
 
-            print("\t{:<15}{:<7}{:<32}{:<30}".format(exploit['date'],exploit_id, name, description))
+            print("\t{:<15}{:<50}{:<32}".format(exploit['date'],exploit_name, name))
 
         print("\t")
 
@@ -181,17 +179,17 @@ class GenerateCommand():
 
     def run(self, params):
         try:
-            id_exploit = int(params[0])
+            exploit_name = params[0]
         except (IndexError, ValueError, TypeError):
-            om.error('You must specify an exploit id')
+            om.error('You must specify a valid exploit name')
             return 0
 
-        if em.find(int(id_exploit)) is None:
+        if em.find(exploit_name) is None:
             om.error('This exploit does not exist')
         else:
 
             conf = config.config
-            exploit = em.find(int(id_exploit))
+            exploit = em.find(exploit_name)
             code = Generator(conf, exploit)
 
             try:
@@ -214,9 +212,9 @@ class SetCommand():
 
     def run(self, params):
         try:
-            id_exploit = int(params[0])
+            exploit_name = params[0]
         except (IndexError, ValueError, TypeError):
-            om.error('You must specify an exploit id')
+            om.error('You must specify a valid exploit name')
             return 0
 
         try:
@@ -226,7 +224,7 @@ class SetCommand():
             om.error('You must specify a parameter name and a value')
             return 0
 
-        self.exploit = em.find(int(id_exploit))
+        self.exploit = em.find(exploit_name)
         if self.exploit is None:
             om.error('This exploit does not exist')
         else:
@@ -248,12 +246,12 @@ class ShowCommand():
     def run(self, params):
 
         try:
-            id_exploit = int(params[0])
+            exploit_name = params[0]
         except (IndexError, ValueError, TypeError):
-            om.error('You must specify an exploit id')
+            om.error('You must specify a valid exploit name')
             return 0
 
-        self.exploit = em.find(int(id_exploit))
+        self.exploit = em.find(exploit_name)
         if self.exploit is None:
             om.error('This exploit does not exist')
         else:
@@ -277,8 +275,8 @@ Informations
 \tName : {} ({})
 \t----
 
-\tDescription
-\t-----------
+\tMore informations
+\t-----------------
 {}
 \tAuthor : {} {}
 \t------

@@ -32,7 +32,28 @@ class CompleterManager:
         readline.parse_and_bind("tab: complete")
         readline.set_completer(self.completer)
         self.commands = CommandsManager().commands()
+        self.autocomplete = ['show', 'set', 'generate']
+        self.exploits = em.exploits.keys()
+
+    def traverse(self,tokens,tree):
+         if tree is None:
+             return []
+
+         if len(tokens) == 0:
+             return []
+         elif len(tokens) == 1:
+             return [x + ' ' for x in tree if x.startswith(tokens[0])]
+         else:
+             if tokens[0] in self.autocomplete:
+                return self.traverse(tokens[1:], self.exploits)
+         return []
 
     def completer(self, text, state):
-        results = [x + " " for x in self.commands if x.startswith(text)] + [None]
-        return results[state]
+        try:
+            tokens = readline.get_line_buffer().split()
+            if not tokens or readline.get_line_buffer()[-1] == ' ':
+                tokens.append('')
+            results = self.traverse(tokens,self.commands) + [None]
+            return results[state]
+        except Exception as e:
+            print(e)
