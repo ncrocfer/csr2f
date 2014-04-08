@@ -122,8 +122,8 @@ class SearchCommand():
 
     def run(self, params):
         print('''
-\tDate           Name                                              Description
-\t====           ====                                              ===========
+\tDate           Name                                 Description                                         Version(s)
+\t====           ====                                 ===========                                         =========
 ''')
 
         for exploit_name, exploit in self.exploits_list.items():
@@ -135,10 +135,13 @@ class SearchCommand():
                 except ParamsNotExistsException:
                     continue
 
-            exploit_name = exploit_name[:45].rstrip() + "..." if len(exploit_name) > 45 else exploit_name
-            name = str(exploit['name'])[:50].rstrip() + "..." if len(exploit['name']) > 50 else exploit['name']
+            exploit_name = exploit_name[:30].rstrip() + "..." if len(exploit_name) > 30 else exploit_name
+            name = str(exploit['name'])[:45].rstrip() + "..." if len(exploit['name']) > 45 else exploit['name']
+            versions = '--'
+            if exploit['versions'] is not None:
+                versions = str(exploit['versions'])[:10].rstrip() + "..." if len(exploit['versions']) > 10 else exploit['versions']
 
-            print("\t{:<15}{:<50}{:<32}".format(exploit['date'],exploit_name, name))
+            print("\t{:<15}{:<37}{:<52}{:<10}".format(exploit['date'],exploit_name, name, versions))
 
         print("\t")
 
@@ -256,6 +259,7 @@ class ShowCommand():
             om.error('This exploit does not exist')
         else:
 
+            versions = 'Not provided' if not self.exploit['versions'] else self.exploit['versions']
             author = 'Unknown' if not self.exploit['author'] else self.exploit['author']
             author_url = '' if not self.exploit['author_url'] else '('+self.exploit['author_url']+')'
             params = [p for p in self.exploit['params'] if p['custom'] == True]
@@ -278,12 +282,16 @@ Informations
 \tMore informations
 \t-----------------
 {}
+
+\tVersion(s) : {}
+\t----------
+
 \tAuthor : {} {}
 \t------
 
 \tMethod & Path : ({}) {}
 \t-------------
-'''.format(self.exploit['name'], self.exploit['date'], description, author, author_url, self.exploit['method'], self.exploit['path']))
+'''.format(self.exploit['name'], self.exploit['date'], description, versions, author, author_url, self.exploit['method'], self.exploit['path']))
 
             # print configuration paramters
             if params:
