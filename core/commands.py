@@ -155,12 +155,12 @@ class UpdateCommand():
             om.error("Error : A Connection error occurred")
             return None
 
-        if int(local_last_exploit) == int(remote_last_exploit):
+        if local_last_exploit == remote_last_exploit:
             om.info("The list of exploits is already updated")
             em.set_last_update()
         else:
             try:
-                nb_exploits = em.update_exploits_list()
+                nb_exploits = em.update_exploits_list(local_last_exploit, remote_last_exploit)
                 exploits_str = "exploits" if nb_exploits > 1 else "exploit"
                 om.info("{} new {} added".format(nb_exploits, exploits_str))
                 om.info("Last update : {}".format(em.get_last_update()))
