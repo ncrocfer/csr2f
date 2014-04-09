@@ -122,8 +122,8 @@ class SearchCommand():
 
     def run(self, params):
         print('''
-\tDate           Name                                 Description                                         Version(s)
-\t====           ====                                 ===========                                         =========
+\tName                                 Informations                                        Version(s)
+\t====                                 ============                                        =========
 ''')
 
         for exploit_name, exploit in self.exploits_list.items():
@@ -141,7 +141,7 @@ class SearchCommand():
             if exploit['versions'] is not None:
                 versions = str(exploit['versions'])[:10].rstrip() + "..." if len(exploit['versions']) > 10 else exploit['versions']
 
-            print("\t{:<15}{:<37}{:<52}{:<10}".format(exploit['date'],exploit_name, name, versions))
+            print("\t{:<37}{:<52}{:<10}".format(exploit_name, name, versions))
 
         print("\t")
 
