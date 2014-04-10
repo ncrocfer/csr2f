@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 #
-# Developed by Nicolas Crocfer (http://www.shatter.fr)
+# Developed by Nicolas Crocfer (https://github.com/ncrocfer)
 
 import sys
 import os
@@ -28,7 +28,7 @@ from core.output import OutputManager
 from core.exploits import ExploitsManager
 from core.manager import Manager
 
-__version__ = "0.1b"
+__version__ = "0.2"
 __author__ = "Nicolas Crocfer"
 __licence__ = "GPLv3"
 
@@ -47,9 +47,9 @@ def banner():
 *                                                       *
 *         Cross Site Request Forgery Framework          *
 *                                                       *
-* Version  : {}                                       *
+* Version  : {}                                        *
 * Author   : {}                            *
-* Website  : http://csr2f.github.com                    *
+* Website  : https://github.com/ncrocfer/csr2f          *
 * Licence  : {}                                      *
 *                                                       *
 *********************************************************

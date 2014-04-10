@@ -16,7 +16,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 # MA 02110-1301, USA.
 #
-# Developed by Nicolas Crocfer (http://www.shatter.fr)
+# Developed by Nicolas Crocfer (https://github.com/ncrocfer)
 
 import os
 

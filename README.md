@@ -132,7 +132,7 @@ This command is used to show the informations about an exploit (author, descript
         -----------
         A CSRF vulnerability allows to disable the plugin by submitting an invalid private or public key.
     
-        Author : Nicolas Crocfer (http://www.shatter.fr)
+        Author : Nicolas Crocfer (https://github.com/ncrocfer)
         ------
     
         Method & Path : (POST) /wp-admin/plugins.php?page=funcaptcha/wp_funcaptcha.php
